@@ -1,21 +1,81 @@
 ﻿using System.Collections;
+using System.Drawing;
 
 namespace ProjectTempalte
 {
-    internal class Program
+    static public class Program
     {
+        public static List<string> ReadFromFile(string filePath)
+        {
+            List<string> list = new List<string>();
+            using (var sr = new StreamReader(filePath))
+            {
+                string s;
+                while (!sr.EndOfStream)
+                    list.Add(sr.ReadLine().ToLower());
+            }
+            return list;
+        }
+
+        public static List<int> ReadIntsFromBinaryFile(string path)
+        {
+            List<int> res = new();
+            using (var fs = new FileStream(path, FileMode.Open))
+            using (var bw = new BinaryReader(fs))
+            {
+                while (bw.BaseStream.Position + sizeof(int) < bw.BaseStream.Length)
+                    res.Add(bw.ReadInt32());
+            }
+            return res;
+        }
+
+        // TODO:
+        // Функция должная записывать целые числа в бинарный файл
+        public static void WriteIntsToBinaryFile(string path, List<int> data)
+        {
+            using (var fs = new FileStream(path, FileMode.Create))
+            using (var sw = new StreamWriter(fs))
+            {
+                foreach (var n in data)
+                {
+                    sw.Write(n);
+                }
+            }
+        }
+
+        public static int MinDigit(int n)
+        {
+            return 0; // Заглушка
+        }
+
         static void StackTask()
         {
             Console.WriteLine("Stack Task");
-            Console.WriteLine("Здесь пока ничего нет"); // сотрите эту строку после реализации класса Stack
-                                                        // и как-то протестируйте ваш код
+
+            Stack<int> st = new Stack<int>();
+            st.Push(1);
+            st.Push(12);
+            st.Push(37);
+            st.Push(9);
+            Console.WriteLine(st.Pop());
+            Console.WriteLine(st.Peek());
+            st.Push(1234);
+            Console.WriteLine(st.Peek());
+
             Console.WriteLine("-------");
         }
         static void DeepLookStackTask()
         {
             Console.WriteLine("DeepLookStack Task");
-            Console.WriteLine("Здесь пока ничего нет"); // сотрите эту строку после реализации класса DeepLookStack
-                                                        // и как-то протестируйте ваш код
+            
+            DeepLookStack<int> deep = new DeepLookStack<int>();
+            deep.Push(1);
+            deep.Push(12);
+            deep.Push(37);
+            deep.Push(9);
+            Console.WriteLine(deep.Pop());
+            Console.WriteLine(deep.Peek(2));
+
             Console.WriteLine("-------");
         }
         static void QueueTask()
@@ -29,7 +89,24 @@ namespace ProjectTempalte
         static void StringTask()
         {
             Console.WriteLine("String Task");
-            Console.WriteLine("Здесь пока ничего нет"); // сотрите эту строку после выполнения условий из TODO ниже
+
+        
+            List<string> lst = ReadFromFile("D:\\--Common\\--Desktop\\Dobor\\ProjectTemplate\\ProjectTempalte\\abc.txt");
+            foreach (var c in lst)
+                Console.WriteLine(c);
+
+            List<int> lst2 = ReadIntsFromBinaryFile("D:\\--Common\\--Desktop\\Dobor\\ProjectTemplate\\ProjectTempalte\\aaa.txt");
+            foreach (var c in lst2)
+                Console.WriteLine(c);
+
+            List<int> data = new();
+            data.Add(1);
+            data.Add(3);
+            data.Add(7);
+            WriteIntsToBinaryFile("D:\\--Common\\--Desktop\\Dobor\\ProjectTemplate\\ProjectTempalte\\bbb.txt", data);
+
+
+            // сотрите эту строку после выполнения условий из TODO ниже
             // TODO: прочитать данные из файла (реализуйте и используйте функцию ReadFromFile из файла Functions.cs) и
             // Вывести:
             // * количество слов в тексте
@@ -77,10 +154,10 @@ namespace ProjectTempalte
         }
         static void Main(string[] args)
         {
+            
             StackTask();
             DeepLookStackTask();
             QueueTask();
-            StringTask();
             StringTask();
             RegexTask();
             BinaryTask();

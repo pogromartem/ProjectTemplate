@@ -43,11 +43,6 @@ namespace ProjectTempalte
             }
         }
 
-        public static int MinDigit(int n)
-        {
-            return 0; // Заглушка
-        }
-
         static void StackTask()
         {
             Console.WriteLine("Stack Task");
@@ -92,6 +87,13 @@ namespace ProjectTempalte
 
         
             List<string> lst = ReadFromFile("D:\\--Common\\--Desktop\\Dobor\\ProjectTemplate\\ProjectTempalte\\abc.txt");
+            foreach (var c in lst)
+                Console.WriteLine(c);
+
+            List<string> lst11 = ReadFromFile("D:\\--Common\\--Desktop\\Dobor\\ProjectTemplate\\ProjectTempalte\\abc.txt");
+            var longest = lst11.Select(line => line.Split(" ")).SelectMany(word => word).Max(w => w.Length).ToString();
+            Console.WriteLine($"{longest}");
+            Console.WriteLine($"{longest.Length}");
             foreach (var c in lst)
                 Console.WriteLine(c);
 
